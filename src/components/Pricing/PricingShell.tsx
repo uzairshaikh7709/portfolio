@@ -72,8 +72,7 @@ export default function PricingShell({
             <span className={styles.label}>Services &amp; Pricing</span>
             <h2 className={styles.title}>Clear, fixed pricing</h2>
             <p className={styles.copy}>
-              Fixed quotes in INR for India and USD for international clients
-              (USA, Australia, UK, EU). Every scope is agreed in writing before
+              Fixed quotes. Every scope is agreed in writing before
               work starts — no surprise bills.
             </p>
           </motion.div>

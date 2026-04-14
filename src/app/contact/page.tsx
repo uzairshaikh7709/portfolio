@@ -113,7 +113,7 @@ export default async function ContactPage() {
             <SectionHeading
               label="Let's work together"
               title="Hire a senior React, Shopify & SaaS developer"
-              description="Fixed pricing in INR and USD. Clear scope before we start. Serving teams in India, the USA, and Australia."
+              description="Fixed pricing. Clear scope before we start. Serving teams in India, the USA, and Australia."
             />
           </div>
         </section>

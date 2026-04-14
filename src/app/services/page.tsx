@@ -11,7 +11,7 @@ import styles from './page.module.scss';
 export const metadata: Metadata = buildMetadata({
   title: 'Services — Hire a React, Next.js, Shopify & SaaS Developer',
   description:
-    'Hire Sadik for React, Next.js, Shopify, SaaS, full-stack, and frontend development. Serving founders in India, USA, and Australia with fixed pricing in ₹ and $.',
+    'Hire Sadik for React, Next.js, Shopify, SaaS, full-stack, and frontend development. Serving founders in India, USA, and Australia with fixed pricing.',
   path: '/services',
   keywords: [
     'hire react developer',
