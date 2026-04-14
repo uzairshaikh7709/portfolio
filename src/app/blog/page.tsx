@@ -3,9 +3,11 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
-import { blogPosts } from '@/data/blog-posts';
+import { getBlogPosts } from '@/lib/content/blog';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = buildMetadata({
   title: 'Blog — React, Shopify, and SaaS development insights',
@@ -29,10 +31,33 @@ function formatDate(iso: string): string {
   });
 }
 
-export default function BlogIndexPage() {
-  const posts = [...blogPosts].sort(
+export default async function BlogIndexPage() {
+  const all = await getBlogPosts();
+  const posts = [...all].sort(
     (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
   );
+
+  if (posts.length === 0) {
+    return (
+      <>
+        <Navbar />
+        <main className={styles.page}>
+          <section className={styles.hero}>
+            <div className={styles.heroBg} />
+            <div className={styles.container}>
+              <SectionHeading
+                label="Blog"
+                title="Articles coming soon"
+                description="New articles on hiring developers, Shopify, Next.js, and SaaS are being drafted."
+              />
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
   const [featured, ...rest] = posts;
 
   const blogJsonLd = {

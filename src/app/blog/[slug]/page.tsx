@@ -8,20 +8,23 @@ import {
   getBlogPost,
   getAllBlogSlugs,
   getRelatedPosts,
-} from '@/data/blog-posts';
+} from '@/lib/content/blog';
 import { buildMetadata, siteConfig } from '@/lib/seo';
 import styles from './page.module.scss';
+
+export const revalidate = 60;
 
 interface PageProps {
   params: { slug: string };
 }
 
-export function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getAllBlogSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const post = getBlogPost(params.slug);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const post = await getBlogPost(params.slug);
   if (!post) {
     return buildMetadata({
       title: 'Not found',
@@ -45,11 +48,11 @@ function formatDate(iso: string): string {
   });
 }
 
-export default function BlogPostPage({ params }: PageProps) {
-  const post = getBlogPost(params.slug);
+export default async function BlogPostPage({ params }: PageProps) {
+  const post = await getBlogPost(params.slug);
   if (!post) notFound();
 
-  const related = getRelatedPosts(post.slug, 3);
+  const related = await getRelatedPosts(post.slug, 3);
 
   // ── JSON-LD: BlogPosting + Breadcrumb ─────────
   const postJsonLd = {

@@ -3,7 +3,7 @@ import { siteConfig } from '@/lib/seo';
 import { getAllProjectSlugs } from '@/lib/content/projects';
 import { services } from '@/data/services';
 import { locations } from '@/data/locations';
-import { blogPosts } from '@/data/blog-posts';
+import { getBlogPosts } from '@/lib/content/blog';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteConfig.url;
@@ -16,6 +16,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/services`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ];
 
   // ── Project case-study URLs ──────────────────────
@@ -38,7 +40,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   // ── Blog posts ──────────────────────────────────
-  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((p) => ({
+  const posts = await getBlogPosts();
+  const blogRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
     url: `${base}/blog/${p.slug}`,
     lastModified: new Date(p.updatedAt ?? p.publishedAt),
     changeFrequency: 'monthly',
